@@ -1,0 +1,20 @@
+#sample session files
+
+TAB show process structure
+CMD pstree $(ps -p $PPID -o ppid | awk '{if(NR==2){print}}')
+END
+
+# Command can be chained indefinitely
+# (as long as they won't fail, of course)
+TAB command chaining
+SSH proxy user passord
+SSH some_router user password
+TELNET cisco_router user password enable_password
+CMD show conf
+END
+
+# See how EXIT works:
+# as soon as ctrl+C will be pressed, the tab will be closed
+TAB syslog
+CMD tailf /var/log/syslog
+EXIT
