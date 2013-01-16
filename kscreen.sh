@@ -93,8 +93,6 @@ exp_script=$(cat <<- "EOF"
 		send "$cmdline\r"
 	}
 
-
-
 	set spawn_id ""
 	set timeout 10
 	set prompt "(%|#|>|\\\$) $"
@@ -104,7 +102,7 @@ exp_script=$(cat <<- "EOF"
 		set pos 0
 		set prev_cmd 0
 		foreach arg $::argv {
-			if {[regexp {(SSH|TELNET|CMD|END|EXIT)} $arg] && [expr $pos > 0]} {
+			if {[regexp {(^SSH$|^TELNET$|^CMD$|^END$|^EXIT$)} $arg] && [expr $pos > 0]} {
 				set arg_count [expr $pos - $prev_cmd - 1]
 				switch [lindex $argv $prev_cmd] {
 					SSH {
@@ -123,10 +121,6 @@ exp_script=$(cat <<- "EOF"
 							exec_cmd [lindex $argv $pos-1]
 						} else { puts "Error: Wrong syntax, use CMD \[command\]" }
 						#use this if quotes aren't added to command
-						#exec_cmd [lrange $argv [expr $prev_cmd + 1] [expr $pos - 1]]
-					}
-					CMD {
-						exec_cmd [lindex $argv [expr $prev_cmd + 1]]
 						#exec_cmd [lrange $argv [expr $prev_cmd + 1] [expr $pos - 1]]
 					}
 				}
@@ -158,7 +152,6 @@ exp_script=$(cat <<- "EOF"
 		}
 	}
 	exit 
-
 	EOF
 )
 
@@ -256,7 +249,8 @@ open_files () {
 
 # retrieve script absolute path
 script_dir=$(cd $(dirname "$0"); pwd)
-script_abs_path=$script_dir/$(echo $0 | sed 's|.*/||')
+script_abs_path=$script_dir/$(basename $0)
+#script_abs_path=$script_dir/$(echo $0 | sed 's|.*/||')
 #or: script_abs_path=$script_dir/$(echo $0 | awk -v FS="/" '{print $NF}')
 
 #check if required programs are installed
