@@ -1,0 +1,5 @@
+# Ignore session files
+*.session
+# except sample.session
+!sample.session
+
