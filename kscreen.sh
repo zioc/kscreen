@@ -254,10 +254,10 @@ script_abs_path=$script_dir/$(basename $0)
 #or: script_abs_path=$script_dir/$(echo $0 | awk -v FS="/" '{print $NF}')
 
 #check if required programs are installed
-if [ ! -x $(which expect) ]; then
+if [[ ! -x $(which expect) ]]; then
 	echo "expect must be installed"
 	exit 1
-elif [ ! -x $(which qdbus) ]; then
+elif [[ ! -x $(which qdbus) ]]; then
 	echo "qdbus must be installed"
 	exit 1
 fi
